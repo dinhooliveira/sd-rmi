@@ -14,6 +14,10 @@ public interface QuestionarioInterface extends Remote {
 	void setIndexPergunta(int indexPergunta) throws  RemoteException;
 	void selecionarQuestao() throws RemoteException;
 	void mostrarPergunta() throws RemoteException;
+	void perguntaSeDesejaMostrarresposta() throws RemoteException;
+	void mostrarRespota() throws RemoteException;
+	boolean isPermissao() throws RemoteException;
+	void setPermissao(boolean permissao) throws RemoteException;
 	
 	
 }

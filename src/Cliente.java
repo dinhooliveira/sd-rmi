@@ -33,7 +33,7 @@ public class Cliente {
 
 			switch (opcao) {
 			case "1":
-				controlador = (QuestionarioInterface) Naming.lookup("//localhost/rmi");
+				controlador = (QuestionarioInterface) Naming.lookup("rmi://127.0.0.1/questionario");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
@@ -103,14 +103,20 @@ public class Cliente {
 
 			controlador.selecionarQuestao();
 			if (controlador.getIndexPergunta() > -1) {
-				controlador.getProximoCliente();
+				System.out.println("Vez do cliente" + controlador.getProximoCliente());
 			}
 
 			while (!vezCliete()) {
 			}
-
-			System.out.println("Cliente 1 next");
-
+			
+			controlador.perguntaSeDesejaMostrarresposta();
+			while(controlador.isPermissao()!=false && controlador.isPermissao()!=true) {
+			}
+			System.out.println("Vez do cliente" + controlador.getProximoCliente());
+			while (!vezCliete()) {
+			}
+			
+			
 		} catch (Exception e) {
 
 		}
@@ -123,8 +129,6 @@ public class Cliente {
 
 		try {
 
-			controlador.getProximoCliente();
-
 			System.out.println("Aguardando pergunta do primeiro cliente.");
 			JOptionPane.showMessageDialog(null, "Aguardando pergunta do CLIENTE (1).", "CLIENTE (2)",
 					JOptionPane.WARNING_MESSAGE);
@@ -136,10 +140,12 @@ public class Cliente {
 			if (controlador.getEscolha() != -9999) {
 				controlador.getProximoCliente();
 			}
-			System.out.println("Respondeu"+controlador.getEscolha());
+			System.out.println("Respondeu" + controlador.getEscolha());
 
 			while (!vezCliete()) {
 			}
+			
+			System.out.println("Respondeu" + controlador.getEscolha());
 
 		} catch (Exception e) {
 

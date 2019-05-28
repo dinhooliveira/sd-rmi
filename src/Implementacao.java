@@ -10,8 +10,25 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 	private int escolha = -9999;
 	private int indexPergunta = -9999;
 	private int indexResposta = -9999;
+	private boolean permissao;
 	String[] pergunta = new String[5];
 	float[] resposta = new float[5];
+	
+	protected Implementacao() throws RemoteException {
+
+		super();
+		pergunta[0] = " Quanto é 1 + 1?";
+		pergunta[1] = " Quanto é 2 / 1 * 5 ?";
+		pergunta[2] = " Quanto é 1 + 1 + 5 - 3 ?";
+		pergunta[3] = " Quanto é -2 * 1 + 1 ?";
+		pergunta[4] = " Quanto é -2 * -1 + 1 ?";
+
+		resposta[0] = 2;
+		resposta[1] = 10;
+		resposta[2] = 4;
+		resposta[3] = -1;
+		resposta[4] = -1;
+	}
 
 	public int getCountCliente() throws RemoteException {
 		return identificador;
@@ -54,20 +71,14 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		this.indexPergunta = indexPergunta - 1;
 	}
 
-	protected Implementacao() throws RemoteException {
+	
 
-		super();
-		pergunta[0] = " Quanto é 1 + 1?";
-		pergunta[1] = " Quanto é 2 / 1 * 5 ?";
-		pergunta[2] = " Quanto é 1 + 1 + 5 - 3 ?";
-		pergunta[3] = " Quanto é -2 * 1 + 1 ?";
-		pergunta[4] = " Quanto é -2 * -1 + 1 ?";
+	public boolean isPermissao() throws RemoteException{
+		return permissao;
+	}
 
-		resposta[0] = 2;
-		resposta[1] = 10;
-		resposta[2] = 4;
-		resposta[3] = -1;
-		resposta[4] = -1;
+	public void setPermissao(boolean permissao) throws RemoteException {
+		this.permissao = permissao;
 	}
 
 	public void selecionarQuestao() throws RemoteException {
@@ -97,7 +108,9 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		int resp = JOptionPane.showConfirmDialog(null, "Deseja mostrar a resposta para o cliente 2");
 		System.out.println(resp + "res se deseja");
 		if (resp == 0) {
-			this.mostrarRespota();
+            this.setPermissao(true);
+		}else {
+			this.setPermissao(false);
 		}
 
 	}
