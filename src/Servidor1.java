@@ -7,7 +7,6 @@ public class Servidor1 {
 			Implementacao Servidor = new Implementacao();
 			Naming.rebind("rmi://127.0.0.1/questionario", Servidor);
 			System.out.println("Servidor no ar");
-
 		} catch (Exception e) {
 			System.err.println("Houve algum problema" + e);
 			e.printStackTrace();

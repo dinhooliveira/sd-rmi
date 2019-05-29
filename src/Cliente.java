@@ -37,7 +37,6 @@ public class Cliente {
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
-				System.out.println("Cliente" + controlador.getCountCliente() + " Entrou");
 				break;
 
 			case "2":
@@ -45,7 +44,6 @@ public class Cliente {
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
-				System.out.println("Cliente" + controlador.getCountCliente() + " Entrou");
 				break;
 
 			case "3":
@@ -100,23 +98,35 @@ public class Cliente {
 			controlador.getProximoCliente();
 			while (!vezCliete()) {
 			}
-
+			// Cliente 1 seleciona um pergunta de uma lista de pergunta
 			controlador.selecionarQuestao();
-			if (controlador.getIndexPergunta() > -1) {
-				System.out.println("Vez do cliente" + controlador.getProximoCliente());
+			while (controlador.getIndexPergunta() < 0) {
+				controlador.selecionarQuestao();
 			}
+			controlador.getProximoCliente();
 
 			while (!vezCliete()) {
 			}
-			
+			// cliente 1 permite visualizar resposta ou não
 			controlador.perguntaSeDesejaMostrarresposta();
-			while(controlador.isPermissao()!=false && controlador.isPermissao()!=true) {
+			while (controlador.getPermissao().equals("")) {
+				controlador.perguntaSeDesejaMostrarresposta();
 			}
-			System.out.println("Vez do cliente" + controlador.getProximoCliente());
+			// mostra para a resposta
+			controlador.mostrarRespota();
+			controlador.getProximoCliente();
+
 			while (!vezCliete()) {
 			}
-			
-			
+
+			// mostra o feedback
+			if (controlador.getFeedback().equals("s")) {
+				JOptionPane.showMessageDialog(null, "Foi facil", "FEEDBAK", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "Foi dificil", "FEEDBAK", JOptionPane.INFORMATION_MESSAGE);
+			}
+			cliente1();
+
 		} catch (Exception e) {
 
 		}
@@ -129,23 +139,34 @@ public class Cliente {
 
 		try {
 
-			System.out.println("Aguardando pergunta do primeiro cliente.");
 			JOptionPane.showMessageDialog(null, "Aguardando pergunta do CLIENTE (1).", "CLIENTE (2)",
-					JOptionPane.WARNING_MESSAGE);
+					JOptionPane.INFORMATION_MESSAGE);
 
 			while (!vezCliete()) {
 			}
-
+			// cliente 2 responde a pergunta
 			controlador.mostrarPergunta();
-			if (controlador.getEscolha() != -9999) {
-				controlador.getProximoCliente();
+			while (controlador.getEscolha() == -9999) {
+				controlador.mostrarPergunta();
 			}
-			System.out.println("Respondeu" + controlador.getEscolha());
+			controlador.getProximoCliente();
 
 			while (!vezCliete()) {
 			}
-			
-			System.out.println("Respondeu" + controlador.getEscolha());
+
+			// cliente 2 responde se ficou satisfeito com resposta ao final
+			controlador.FeedBack();
+			while (controlador.getFeedback().equals("")) {
+				controlador.FeedBack();
+			}
+			controlador.getProximoCliente();
+			// mostra a respota e se tiver permissao
+			if (controlador.getPermissao().equals("s")) {
+				controlador.mostrarRespota();
+			}
+
+			controlador.limpezaParcial();
+			cliente2();
 
 		} catch (Exception e) {
 
@@ -158,7 +179,6 @@ public class Cliente {
 		} catch (Exception e) {
 			return false;
 		}
-
 	}
 
 }

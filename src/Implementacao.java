@@ -9,11 +9,11 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 	private int identificador = 0;
 	private int escolha = -9999;
 	private int indexPergunta = -9999;
-	private int indexResposta = -9999;
-	private boolean permissao;
+	private String permissao = "";
+	private String feedback = "";
 	String[] pergunta = new String[5];
 	float[] resposta = new float[5];
-	
+
 	protected Implementacao() throws RemoteException {
 
 		super();
@@ -30,24 +30,32 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		resposta[4] = -1;
 	}
 
+	public String getFeedback() throws RemoteException {
+		return feedback;
+	}
+
+	public void setFeedback(String feedback) throws RemoteException {
+		this.feedback = feedback;
+	}
+
 	public int getCountCliente() throws RemoteException {
 		return identificador;
 	}
 
 	public void setCountCliente(int identificador) throws RemoteException {
-		this.identificador+= identificador;
+		this.identificador += identificador;
 	}
 
-	public int getProximoCliente()  throws RemoteException{
-		
-		if(controlador==0) {
+	public int getProximoCliente() throws RemoteException {
+
+		if (controlador == 0) {
 			controlador = 1;
-		}else if(controlador==1) {
+		} else if (controlador == 1) {
 			controlador = 2;
-		}else {
+		} else {
 			controlador = 1;
 		}
-		
+
 		return controlador;
 	}
 
@@ -71,13 +79,11 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		this.indexPergunta = indexPergunta - 1;
 	}
 
-	
-
-	public boolean isPermissao() throws RemoteException{
+	public String getPermissao() throws RemoteException {
 		return permissao;
 	}
 
-	public void setPermissao(boolean permissao) throws RemoteException {
+	public void setPermissao(String permissao) throws RemoteException {
 		this.permissao = permissao;
 	}
 
@@ -106,13 +112,22 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 
 	public void perguntaSeDesejaMostrarresposta() throws RemoteException {
 		int resp = JOptionPane.showConfirmDialog(null, "Deseja mostrar a resposta para o cliente 2");
-		System.out.println(resp + "res se deseja");
 		if (resp == 0) {
-            this.setPermissao(true);
-		}else {
-			this.setPermissao(false);
+			this.setPermissao("s");
+		} else {
+			this.setPermissao("n");
 		}
 
+	}
+
+	public void FeedBack() throws RemoteException {
+
+		int resp = JOptionPane.showConfirmDialog(null, "A pergunta foi dificil?");
+		if (resp == 0) {
+			this.setFeedback("s");
+		} else {
+			this.setFeedback("n");
+		}
 	}
 
 	public void mostrarRespota() throws RemoteException {
@@ -121,7 +136,11 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		JOptionPane.showMessageDialog(null, texto);
 	}
 
-	public void perguntaFeedBack() {
-
+	public void limpezaParcial() throws RemoteException {
+		controlador = 0;
+		escolha = -9999;
+		indexPergunta = -9999;
+		permissao = "";
+		feedback = "";
 	}
 }
