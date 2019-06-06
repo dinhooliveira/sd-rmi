@@ -33,7 +33,7 @@ public class Cliente {
 
 			switch (opcao) {
 			case "1":
-				controlador = (QuestionarioInterface) Naming.lookup("rmi://127.0.0.1/questionario");
+				controlador = (QuestionarioInterface) Naming.lookup("rmi://169.254.97.62/questionario");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
@@ -99,32 +99,57 @@ public class Cliente {
 			while (!vezCliete()) {
 			}
 			// Cliente 1 seleciona um pergunta de uma lista de pergunta
-			controlador.selecionarQuestao();
+			int i;
 			while (controlador.getIndexPergunta() < 0) {
-				controlador.selecionarQuestao();
+
+				String texto = " SELECIONE UMA QUESTÃO PARA SER RESOLVIDA (CLIENTE 1) \n\n";
+				for (i = 0; i < controlador.getPergunta().length; i++) {
+					texto += (i + 1) + ") " + controlador.getPergunta()[i] + "\n\n";
+				}
+
+				int resp = Integer.parseInt(JOptionPane.showInputDialog(texto));
+
+				if (resp > 0 && resp <= controlador.getPergunta().length) {
+					controlador.setIndexPergunta(resp);
+				}
+
 			}
+
+			System.out.print("Cliente 1 perguntou");
 			controlador.getProximoCliente();
 
 			while (!vezCliete()) {
 			}
+
+			int resp;
 			// cliente 1 permite visualizar resposta ou não
-			controlador.perguntaSeDesejaMostrarresposta();
 			while (controlador.getPermissao().equals("")) {
-				controlador.perguntaSeDesejaMostrarresposta();
+				resp = JOptionPane.showConfirmDialog(null, "Deseja mostrar a resposta para o cliente 2 (CLIENTE 1) ");
+				if (resp == 0) {
+					controlador.setPermissao("s");
+				} else {
+					controlador.setPermissao("n");
+				}
 			}
+			System.out.print("Cliente 1 liberando permissão");
 			// mostra para a resposta
-			controlador.mostrarRespota();
 			controlador.getProximoCliente();
 
 			while (!vezCliete()) {
 			}
 
+			System.out.print("Cliente 1 viu feedback");
 			// mostra o feedback
 			if (controlador.getFeedback().equals("s")) {
-				JOptionPane.showMessageDialog(null, "Foi facil", "FEEDBAK", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Foi facil", "FEEDBAK (CLIENTE 1) ", JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(null, "Foi dificil", "FEEDBAK", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Foi dificil", "FEEDBAK (CLIENTE 1) ", JOptionPane.INFORMATION_MESSAGE);
 			}
+
+			String texto = controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()]
+					? "Parabens a resposta esta certa (CLIENTE 1) "
+					: "Errou (CLIENTE 1) ";
+			JOptionPane.showMessageDialog(null, texto);
 			cliente1();
 
 		} catch (Exception e) {
@@ -139,30 +164,44 @@ public class Cliente {
 
 		try {
 
-			JOptionPane.showMessageDialog(null, "Aguardando pergunta do CLIENTE (1).", "CLIENTE (2)",
+			JOptionPane.showMessageDialog(null, "Aguardando pergunta do CLIENTE (1). (CLIENTE 2)","",
 					JOptionPane.INFORMATION_MESSAGE);
 
 			while (!vezCliete()) {
 			}
 			// cliente 2 responde a pergunta
-			controlador.mostrarPergunta();
+			int resp;
+			String pergunta;
 			while (controlador.getEscolha() == -9999) {
-				controlador.mostrarPergunta();
+				pergunta = controlador.getIndexPergunta() + 1 + ") "
+						+ controlador.getPergunta()[controlador.getIndexPergunta()];
+				resp = Integer.parseInt(JOptionPane.showInputDialog(pergunta));
+				controlador.setEscolha(resp);
 			}
 			controlador.getProximoCliente();
+			System.out.print("Cliente 2 reposndeu");
 
 			while (!vezCliete()) {
 			}
 
 			// cliente 2 responde se ficou satisfeito com resposta ao final
-			controlador.FeedBack();
 			while (controlador.getFeedback().equals("")) {
-				controlador.FeedBack();
+				resp = JOptionPane.showConfirmDialog(null, "A pergunta foi facil? (CLIENTE 2)");
+				if (resp == 0) {
+					controlador.setFeedback("s");
+				} else {
+					controlador.setFeedback("n");
+				}
 			}
+
+			System.out.print("Cliente 2 deu feedback ");
 			controlador.getProximoCliente();
 			// mostra a respota e se tiver permissao
 			if (controlador.getPermissao().equals("s")) {
-				controlador.mostrarRespota();
+				String texto = controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()]
+						? "Parabens a resposta esta certa (CLIENTE 2)"
+						: "Errou (CLIENTE 2)";
+				JOptionPane.showMessageDialog(null, texto);
 			}
 
 			controlador.limpezaParcial();

@@ -12,15 +12,14 @@ public interface QuestionarioInterface extends Remote {
 	void setEscolha(int escolha) throws RemoteException;
 	int getIndexPergunta() throws RemoteException;
 	void setIndexPergunta(int indexPergunta) throws  RemoteException;
-	void selecionarQuestao() throws RemoteException;
-	void mostrarPergunta() throws RemoteException;
-	void perguntaSeDesejaMostrarresposta() throws RemoteException;
-	void mostrarRespota() throws RemoteException;
 	String getPermissao() throws RemoteException;
 	void setPermissao(String permissao) throws RemoteException;
-	void FeedBack() throws RemoteException;
 	String getFeedback() throws RemoteException;
 	void setFeedback(String feedback) throws RemoteException;
 	void limpezaParcial() throws RemoteException;
+    String[] getPergunta()  throws RemoteException;
+    void setPergunta(String[] pergunta) throws RemoteException;
+    float[] getResposta()  throws RemoteException;
+    void setResposta(float[] resposta)  throws RemoteException;
 	
 }

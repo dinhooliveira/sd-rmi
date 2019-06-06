@@ -1,11 +1,11 @@
 import java.rmi.Naming;
 
-public class Servidor1 {
+public class Servidor2 {
 
-	Servidor1() {
+	Servidor2() {
 		try {
 			Implementacao Servidor = new Implementacao();
-			Naming.rebind("rmi://localhost/questionario", Servidor);
+			Naming.rebind("rmi://127.0.0.1/questionario2", Servidor);
 			System.out.println("Servidor no ar");
 		} catch (Exception e) {
 			System.err.println("Houve algum problema" + e);
@@ -15,7 +15,7 @@ public class Servidor1 {
 	}
 
 	public static void main(String[] args) {
-		new Servidor1();
+		new Servidor2();
 		System.out.println("Aguardando inicialização do objeto...");
 	}
 }

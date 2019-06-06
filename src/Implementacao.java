@@ -87,55 +87,24 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 		this.permissao = permissao;
 	}
 
-	public void selecionarQuestao() throws RemoteException {
-		int i;
-		String texto = " SELECIONE UMA QUESTÃO PARA SER RESOLVIDA \n\n";
-		for (i = 0; i < this.pergunta.length; i++) {
-			texto += (i + 1) + ") " + this.pergunta[i] + "\n\n";
-		}
-
-		int resp = Integer.parseInt(JOptionPane.showInputDialog(texto));
-
-		if (resp > 0 && resp <= this.pergunta.length) {
-			this.setIndexPergunta(resp);
-		} else {
-			this.selecionarQuestao();
-		}
-
+	public String[] getPergunta()  throws RemoteException {
+		return pergunta;
 	}
 
-	public void mostrarPergunta() throws RemoteException {
-		String pergunta = this.getIndexPergunta() + 1 + ") " + this.pergunta[this.getIndexPergunta()];
-		int resp = Integer.parseInt(JOptionPane.showInputDialog(pergunta));
-		this.setEscolha(resp);
+	public void setPergunta(String[] pergunta) throws RemoteException  {
+		this.pergunta = pergunta;
 	}
 
-	public void perguntaSeDesejaMostrarresposta() throws RemoteException {
-		int resp = JOptionPane.showConfirmDialog(null, "Deseja mostrar a resposta para o cliente 2");
-		if (resp == 0) {
-			this.setPermissao("s");
-		} else {
-			this.setPermissao("n");
-		}
-
+	
+	public float[] getResposta()  throws RemoteException  {
+		return resposta;
 	}
 
-	public void FeedBack() throws RemoteException {
-
-		int resp = JOptionPane.showConfirmDialog(null, "A pergunta foi dificil?");
-		if (resp == 0) {
-			this.setFeedback("s");
-		} else {
-			this.setFeedback("n");
-		}
+	public void setResposta(float[] resposta)  throws RemoteException  {
+		this.resposta = resposta;
 	}
 
-	public void mostrarRespota() throws RemoteException {
-		String texto = this.getEscolha() == this.resposta[this.getIndexPergunta()] ? "Parabens a resposta esta certa"
-				: "Errou";
-		JOptionPane.showMessageDialog(null, texto);
-	}
-
+	
 	public void limpezaParcial() throws RemoteException {
 		controlador = 0;
 		escolha = -9999;
