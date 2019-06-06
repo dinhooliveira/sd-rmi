@@ -34,7 +34,7 @@ public class Cliente {
 
 			switch (opcao) {
 			case "1":
-				controlador = (QuestionarioInterface) Naming.lookup("//192.168.0.104/rmi");
+				controlador = (QuestionarioInterface) Naming.lookup("//192.168.0.100/rmi");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();

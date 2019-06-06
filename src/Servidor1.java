@@ -5,7 +5,7 @@ public class Servidor1 {
 	public static void main(String[] args) {
 		try {
 			Implementacao Servidor = new Implementacao();
-			Naming.rebind("//192.168.0.104/rmi", Servidor);
+			Naming.rebind("//192.168.0.100/rmi", Servidor);
 			System.out.println("Servidor no ar");
 		} catch (Exception e) {
 			System.err.println("Houve algum problema" + e);
