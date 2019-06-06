@@ -1,3 +1,4 @@
+import java.awt.HeadlessException;
 import java.rmi.RemoteException;
 import java.rmi.Naming;
 import javax.swing.*;
@@ -10,7 +11,7 @@ public class Cliente {
 	private static QuestionarioInterface controlador = null;
 	private static int cliente = 0;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws HeadlessException, NumberFormatException, RemoteException {
 
 		try {
 			menu();
@@ -33,7 +34,7 @@ public class Cliente {
 
 			switch (opcao) {
 			case "1":
-				controlador = (QuestionarioInterface) Naming.lookup("rmi://169.254.97.62/questionario");
+				controlador = (QuestionarioInterface) Naming.lookup("//192.168.0.104/rmi");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
