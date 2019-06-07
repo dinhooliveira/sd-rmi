@@ -14,11 +14,12 @@ public class Cliente {
 	public static void main(String[] args) throws HeadlessException, NumberFormatException, RemoteException {
 
 		try {
+			
 			menu();
+		
 		} catch (Exception e) {
 
 		}
-
 	}
 
 	/**
@@ -27,21 +28,21 @@ public class Cliente {
 	public static void menu() {
 
 		String opcao = JOptionPane.showInputDialog(null,
-				"OPÇÕES:\n\n1) Para acessar o SERVIDOR 1\n\n2) Para acessar o SERVIDOR 2\n\n3) Digite 3 para SAIR! ",
+				"OPÃ‡Ã•ES:\n\n1) Para acessar o SERVIDOR 1\n\n2) Para acessar o SERVIDOR 2\n\n3) Digite 3 para SAIR! ",
 				"ESCOLHA DE SERVIDORES", JOptionPane.PLAIN_MESSAGE);
 
 		try {
 
 			switch (opcao) {
 			case "1":
-				controlador = (QuestionarioInterface) Naming.lookup("//192.168.0.100/rmi");
+				controlador = (QuestionarioInterface) Naming.lookup("//localhost/rmi");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
 				break;
 
 			case "2":
-				controlador = (QuestionarioInterface) Naming.lookup("//localhost/rmi");
+				controlador = (QuestionarioInterface) Naming.lookup("//10.0.200.18/rmi");
 				controlador.setCountCliente(1);
 				cliente = controlador.getCountCliente();
 				Inicializacao();
@@ -69,7 +70,7 @@ public class Cliente {
 		try {
 
 			if (controlador.getCountCliente() == 1) {
-				JOptionPane.showMessageDialog(null, "Aguardando o Segundo Cliente", "Informação",
+				JOptionPane.showMessageDialog(null, "Aguardando o Segundo Cliente", "InformaÃ§Ã£o",
 						JOptionPane.WARNING_MESSAGE);
 			}
 
@@ -103,7 +104,7 @@ public class Cliente {
 			int i;
 			while (controlador.getIndexPergunta() < 0) {
 
-				String texto = " SELECIONE UMA QUESTÃO PARA SER RESOLVIDA (CLIENTE 1) \n\n";
+				String texto = " SELECIONE UMA QUESTÃƒO PARA SER RESOLVIDA (CLIENTE 1) \n\n";
 				for (i = 0; i < controlador.getPergunta().length; i++) {
 					texto += (i + 1) + ") " + controlador.getPergunta()[i] + "\n\n";
 				}
@@ -123,7 +124,7 @@ public class Cliente {
 			}
 
 			int resp;
-			// cliente 1 permite visualizar resposta ou não
+			// cliente 1 permite visualizar resposta ou nÃ£o
 			while (controlador.getPermissao().equals("")) {
 				resp = JOptionPane.showConfirmDialog(null, "Deseja mostrar a resposta para o cliente 2 (CLIENTE 1) ");
 				if (resp == 0) {
@@ -132,7 +133,7 @@ public class Cliente {
 					controlador.setPermissao("n");
 				}
 			}
-			System.out.print("Cliente 1 liberando permissão");
+			System.out.print("Cliente 1 liberando permissÃ£o");
 			// mostra para a resposta
 			controlador.getProximoCliente();
 
@@ -147,11 +148,17 @@ public class Cliente {
 				JOptionPane.showMessageDialog(null, "Foi dificil", "FEEDBAK (CLIENTE 1) ", JOptionPane.INFORMATION_MESSAGE);
 			}
 
-			String texto = controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()]
-					? "Parabens a resposta esta certa (CLIENTE 1) "
-					: "Errou (CLIENTE 1) ";
-			JOptionPane.showMessageDialog(null, texto);
-			cliente1();
+			String texto;
+			if(controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()])
+				texto = "Parabens a resposta esta certa (CLIENTE 1) ";
+			else
+				texto = "Errou (CLIENTE 1) ";
+			
+			JOptionPane.showMessageDialog(null,texto,"", JOptionPane.INFORMATION_MESSAGE);
+			
+			System.out.print("Cliente um e limpeza parcial");
+			controlador.limpezaParcial();
+			menu();
 
 		} catch (Exception e) {
 
@@ -199,14 +206,14 @@ public class Cliente {
 			controlador.getProximoCliente();
 			// mostra a respota e se tiver permissao
 			if (controlador.getPermissao().equals("s")) {
-				String texto = controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()]
-						? "Parabens a resposta esta certa (CLIENTE 2)"
-						: "Errou (CLIENTE 2)";
-				JOptionPane.showMessageDialog(null, texto);
+				String texto;
+				if(controlador.getEscolha() == controlador.getResposta()[controlador.getIndexPergunta()])
+					texto = "Parabens a resposta esta certa (CLIENTE 1) ";
+				else
+					texto = "Errou (CLIENTE 1) ";
 			}
 
-			controlador.limpezaParcial();
-			cliente2();
+			menu();
 
 		} catch (Exception e) {
 
