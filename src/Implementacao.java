@@ -17,11 +17,11 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 	protected Implementacao() throws RemoteException {
 
 		super();
-		pergunta[0] = " Quanto é 1 + 1?";
-		pergunta[1] = " Quanto é 2 / 1 * 5 ?";
-		pergunta[2] = " Quanto é 1 + 1 + 5 - 3 ?";
-		pergunta[3] = " Quanto é -2 * 1 + 1 ?";
-		pergunta[4] = " Quanto é -2 * -1 + 1 ?";
+		pergunta[0] = " Quanto Ã© 1 + 1?";
+		pergunta[1] = " Quanto Ã© 2 / 1 * 5 ?";
+		pergunta[2] = " Quanto Ã© 1 + 1 + 5 - 3 ?";
+		pergunta[3] = " Quanto Ã© -2 * 1 + 1 ?";
+		pergunta[4] = " Quanto Ã© -2 * -1 + 1 ?";
 
 		resposta[0] = 2;
 		resposta[1] = 10;
@@ -106,6 +106,7 @@ public class Implementacao extends UnicastRemoteObject implements QuestionarioIn
 
 	
 	public void limpezaParcial() throws RemoteException {
+		identificador=0;
 		controlador = 0;
 		escolha = -9999;
 		indexPergunta = -9999;
